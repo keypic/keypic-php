@@ -14,8 +14,10 @@ $message = $_REQUEST['message'];
 $Token = $_REQUEST['Token'];
 
 /*
-*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your form code here
-*	IMPORTANT this code must be secret, don't send it to clients
+*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
+*	get your FormID here -> http://keypic.com/modules/forms/
+*	IMPORTANT FormID must be secret, don't share it
+*	
 */
 Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 //Keypic::setDebug(true);

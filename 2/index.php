@@ -11,6 +11,12 @@ $password1 = $_REQUEST['password1'];
 $password2 = $_REQUEST['password2'];
 $Token = $_REQUEST['Token'];
 
+/*
+*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
+*	get your FormID here -> http://keypic.com/modules/forms/
+*	IMPORTANT FormID must be secret, don't share it
+*	
+*/
 Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 //Keypic::setDebug(true);
 
