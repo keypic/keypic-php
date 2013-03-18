@@ -5,10 +5,18 @@
 */
 include_once('../Keypic.php');
 
+ini_set('display_errors', 'on'); 
+error_reporting(E_ALL & ~E_NOTICE);
 
 $email = $_REQUEST['email'];
 $password = $_REQUEST['password'];
 $Token = $_REQUEST['Token'];
+
+/*
+ *	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
+ *	get your FormID here -> http://keypic.com/modules/forms/
+ *	IMPORTANT FormID must be secret, don't share it
+*/
 
 Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 //Keypic::setDebug(true);
