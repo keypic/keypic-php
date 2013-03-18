@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
  html,body{margin:0; padding:0; font-family:Verdena,Tahoma,sans-serif;}
  body{background:#FFF;color:#333}
  a img{border:0;}
- div.greybox{background-color: #f7f7f7; border: solid #cccccc; border-width: 1px 1px 1px 1px; color: #333333; padding: 10px; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px;}
+ div.greybox{text-align: center; background-color: #f7f7f7; border: solid #cccccc; border-width: 1px 1px 1px 1px; color: #333333; padding: 10px; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px;}
  </style>
  </head>
  <body dir="ltr">
