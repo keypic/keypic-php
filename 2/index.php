@@ -11,12 +11,6 @@ $password1 = $_REQUEST['password1'];
 $password2 = $_REQUEST['password2'];
 $Token = $_REQUEST['Token'];
 
-/*
-*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
-*	get your FormID here -> http://keypic.com/modules/forms/
-*	IMPORTANT FormID must be secret, don't share it
-*	
-*/
 Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 //Keypic::setDebug(true);
 
@@ -25,7 +19,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 	if($email != '' && $password1 != '')
 	{
 		echo '<font color="red"> ' . Keypic::isSpam($Token, $email) . '% of spam. </font><br />';
-		echo Keypic::getImage() . '<br />';
+		echo Keypic::getIt() . '<br />';
 		echo '<a href="">reload</a>';
 		exit(0);
 	}
@@ -56,7 +50,7 @@ Password: <br />
 Password again: <br />
 <input type="password" name="password2" value="<?php echo $password2;  ?>" /> <br />
 <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email); ?>" /> <br />
-<?php echo Keypic::getImage(); ?> <br />
+<?php echo Keypic::getIt(); ?> <br />
 <input type="submit" value="Send"> <br />
 </form>
 <?php echo $error; ?>

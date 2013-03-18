@@ -15,107 +15,60 @@ include_once('../Keypic.php');
  <body dir="ltr">
 <b><a href="/demo/">DEMO home</a></b>
 <div class="greybox">
- <h1>iFrames</h1>
+ <h1>Scripts</h1>
 	<table class="table_class">
-	 <tr>
-	  <th colspan="2">iFrames</th>
-	 </tr>
-	 <tr>
-	  <td>Protected with keypic.com image</td>
-	  <td><?php echo Keypic::getiFrame('80x26') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Lead square transparent 1x1 pixel</td>
-	  <td><?php echo Keypic::getiFrame('1x1') ?></td>
-	 </tr>
    	 <tr>
 	  <th colspan="2">Rectangular and pop-up ads</th>
 	 </tr>
 	 <tr>
-	  <td>Large rectangle (336 x 280)</td>
-	  <td><?php echo Keypic::getiFrame('336x280') ?></td>
+	  <td>Square Pop-Up (250 x 250)</td>
+	  <td><?php echo Keypic::getIt('getScript', '250x250') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Medium Rectangle (300 x 250)</td>
-	  <td><?php echo Keypic::getiFrame('300x250') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '300x250') ?></td>
 	 </tr>
 	 <tr>
-	  <td>Square Pop-Up (250 x 250)</td>
-	  <td><?php echo Keypic::getiFrame('250x250') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Vertical Rectangle (240 x 400)</td>
-	  <td><?php echo Keypic::getiFrame('240x400') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Rectangle (180 x 150)</td>
-	  <td><?php echo Keypic::getiFrame('180x150') ?></td>
-	 </tr>
-	 <tr>
-	  <td>3:1 Rectangle (300 x 100)</td>
-	  <td><?php echo Keypic::getiFrame('300x100') ?></td>
+	  <td>Large rectangle (336 x 280)</td>
+	  <td><?php echo Keypic::getIt('getScript', '336x280') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Pop-under (720 x 300)</td>
-	  <td><?php echo Keypic::getiFrame('720x300') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Banner w/Naw Bar (392 × 72)</td>
-	  <td><?php echo Keypic::getiFrame('392x72') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '720x300') ?></td>
 	 </tr>
 	 <tr>
 	 <th colspan="2">Banner and button ads</th>
 	 </tr>
 	 <tr>
 	  <td>Full Banner (468 x 60)</td>
-	  <td><?php echo Keypic::getiFrame('468x60') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '468x60') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Half Banner (234 x 60)</td>
-	  <td><?php echo Keypic::getiFrame('234x60') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Micro Button (80 x 15)</td>
-	  <td><?php echo Keypic::getiFrame('80x15') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Micro Bar (88 x 31)</td>
-	  <td><?php echo Keypic::getiFrame('88x31') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Button 1 (120 x 90)</td>
-	  <td><?php echo Keypic::getiFrame('120x90') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Button 2 (120 x 60)</td>
-	  <td><?php echo Keypic::getiFrame('120x60') ?></td>
-	 </tr>
-	 <tr>
-	  <td>Vertical Banner (120 x 240)</td>
-	  <td><?php echo Keypic::getiFrame('120x240') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '234x60') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Square Button (125 x 125)</td>
-	  <td><?php echo Keypic::getiFrame('125x125') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '125x125') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Leaderboard (728 x 90)</td>
-	  <td><?php echo Keypic::getiFrame('728x90') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '728x90') ?></td>
 	 </tr>
 	 <tr>
 	 <th colspan="2">"Skyscraper" ads</th>
 	 </tr>
 	 <tr>
 	  <td>Skyscraper (120 x 600)</td>
-	  <td><?php echo Keypic::getiFrame('120x600') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '120x600') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Wide Skyscraper (160 x 600)</td>
-	  <td><?php echo Keypic::getiFrame('160x600') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '160x600') ?></td>
 	 </tr>
 	 <tr>
 	  <td>Half Page Ad (300 x 600)</td>
-	  <td><?php echo Keypic::getiFrame('300x600') ?></td>
+	  <td><?php echo Keypic::getIt('getScript', '300x600') ?></td>
 	 </tr>
 	</table>
 </div>

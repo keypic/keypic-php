@@ -14,10 +14,8 @@ $message = $_REQUEST['message'];
 $Token = $_REQUEST['Token'];
 
 /*
-*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
-*	get your FormID here -> http://keypic.com/modules/forms/
-*	IMPORTANT FormID must be secret, don't share it
-*	
+*	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your form code here
+*	IMPORTANT this code must be secret, don't send it to clients
 */
 Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 //Keypic::setDebug(true);
@@ -30,7 +28,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 		if(is_numeric($spam))
 		{
 			echo '<font color="red"> This message has ' . $spam . '% of spam probability</font><br />';
-			echo Keypic::getImage() . '<br />';
+			echo Keypic::getIt() . '<br />';
 			echo '<a href="">reload</a>';
 			die();
 		}
@@ -65,7 +63,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
    Message: <br />
    <textarea name="message" rows="5" cols="30"><?php echo $message; ?></textarea> <br />
    <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email, $username, $message); ?>" /> <br />
-   <?php echo Keypic::getImage(); ?> <br />
+   <?php echo Keypic::getIt(); ?> <br />
    <input type="submit" value="Send"> <br />
    </form>
    <?php echo $error; ?>
