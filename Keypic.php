@@ -155,7 +155,7 @@ class Keypic
 		}
 	}
 
-	public static function getIt($RequestType = 'getScript', $WeightHeight = '250x250', $Debug = null)
+	public static function getIt($RequestType = 'getScript', $WeightHeight = '125x125', $Debug = null)
 	{
 		if($RequestType == 'getImage')
 		{
