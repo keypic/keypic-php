@@ -1,6 +1,6 @@
 <?php
 
-/*  Copyright 2010-2011  Keypic LLC  (email : info@keypic.com)
+/*  Copyright 2010-2014  Keypic Inc.  (email : info@keypic.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -22,17 +22,18 @@
 class Keypic
 {
 	private static $Instance;
-	private static $version = '1.5';
-	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.5';
+	private static $version = '1.6';
+	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.6';
 	private static $SpamPercentage = 70;
-	private static $host = 'ws.keypic.com'; // ws.keypic.com
+	private static $host = 'ws.keypic.com';
 	private static $url = '/';
 	private static $port = 80;
 
 	private static $FormID;
+	private static $PublisherID;
 	private static $Token;
 	private static $RequestType;
-	private static $WeightHeight;
+	private static $WidthHeight;
 	private static $Debug;
 
 	private function __clone(){}
@@ -66,6 +67,8 @@ class Keypic
 
 	public static function setFormID($FormID){self::$FormID = $FormID;}
 
+	public static function setPublisherID($PublisherID){self::$PublisherID = $PublisherID;}
+
 	public static function setDebug($Debug){self::$Debug = $Debug;}
 
 	public static function checkFormID($FormID)
@@ -76,46 +79,6 @@ class Keypic
 
 		$response = json_decode(self::sendRequest($fields), true);
 		return $response;
-	}
-
-	// makes a request to the Keypic Web Service
-	private static function sendRequest($fields)
-	{
-		// boundary generation
-		srand((double)microtime()*1000000);
-		$boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
-
-		// Build the header
-		$header = "POST " . self::$url . " HTTP/1.0\r\n";
-		$header .= "Host: " . self::$host . "\r\n";
-		$header .= "Content-type: multipart/form-data, boundary=$boundary\r\n";
-		$header .= self::$UserAgent . "\r\n";
-
-
-		$data = '';
-		// attach post vars
-		foreach($fields AS $index => $value)
-		{
-			$data .="--$boundary\r\n";
-			$data .= "Content-Disposition: form-data; name=\"$index\"\r\n";
-			$data .= "\r\n$value\r\n";
-			$data .="--$boundary\r\n";
-		}
-
-		// and attach the file
-//		$data .= "--$boundary\r\n";
-//		$content_file = join("", file($tmp_name));
-//		$data .="Content-Disposition: form-data; name=\"userfile\"; filename=\"$file_name\"\r\n";
-//		$data .= "Content-Type: $content_type\r\n\r\n";
-//		$data .= "$content_file\r\n";
-//		$data .="--$boundary--\r\n";
-
-		$header .= "Content-length: " . strlen($data) . "\r\n\r\n";
-
-		$socket = new Socket(self::$host, self::$port, $header.$data);
-		$socket->send();
-		$return = explode("\r\n\r\n", $socket->getResponse(), 2);
-		return $return[1];
 	}
 
 	public static function getToken($Token, $ClientEmailAddress = '', $ClientUsername = '', $ClientMessage = '', $ClientFingerprint = '', $Quantity = 1)
@@ -155,15 +118,15 @@ class Keypic
 		}
 	}
 
-	public static function getIt($RequestType = 'getScript', $WeightHeight = '125x125', $Debug = null)
+	public static function getIt($RequestType = 'getScript', $WidthHeight = '125x125', $Debug = null)
 	{
 		if($RequestType == 'getImage')
 		{
-			return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="http://' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WeightHeight=' . $WeightHeight . '&amp;Debug=' . self::$Debug . '" alt="Form protected by Keypic" /></a>';
+			return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="http://' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
 		}
 		else
 		{
-			return '<script type="text/javascript" src="http://' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WeightHeight=' . $WeightHeight . '"></script>';
+			return '<script type="text/javascript" src="http://' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
 		}
 	}
 
@@ -208,6 +171,45 @@ class Keypic
 		return $response;
 	}
 
+	// makes a request to the Keypic Web Service
+	private static function sendRequest($fields)
+	{
+		// boundary generation
+		srand((double)microtime()*1000000);
+		$boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
+
+		// Build the header
+		$header = "POST " . self::$url . " HTTP/1.0\r\n";
+		$header .= "Host: " . self::$host . "\r\n";
+		$header .= "Content-Type: multipart/form-data, boundary=$boundary\r\n";
+		$header .= self::$UserAgent . "\r\n";
+
+
+		$data = '';
+		// attach post vars
+		foreach($fields as $index => $value)
+		{
+			$data .="--$boundary\r\n";
+			$data .= "Content-Disposition: form-data; name=\"$index\"\r\n";
+			$data .= "\r\n$value\r\n";
+			$data .="--$boundary\r\n";
+		}
+
+		// and attach the file
+//		$data .= "--$boundary\r\n";
+//		$content_file = join("", file($tmp_name));
+//		$data .="Content-Disposition: form-data; name=\"userfile\"; filename=\"$file_name\"\r\n";
+//		$data .= "Content-Type: $content_type\r\n\r\n";
+//		$data .= "$content_file\r\n";
+//		$data .="--$boundary--\r\n";
+
+		$header .= "Content-length: " . strlen($data) . "\r\n\r\n";
+
+		$socket = new Socket(self::$host, self::$port, $header.$data);
+		$socket->send();
+		$return = explode("\r\n\r\n", $socket->getResponse(), 2);
+		return $return[1];
+	}
 }
 
 class Socket
@@ -270,5 +272,3 @@ class Socket
 
 	public function getErrorString(){return $this->errorString;}
 }
-
-?>
