@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 		if(is_numeric($spam))
 		{
 			echo '<font color="red"> This message has ' . $spam . '% of spam probability</font><br />';
-			echo Keypic::getIt() . '<br />';
+			echo Keypic::getIt('getImage') . '<br />';
 			echo '<a href="">reload</a>';
 			die();
 		}
@@ -65,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
    Message: <br />
    <textarea name="message" rows="5" cols="30"><?php echo $message; ?></textarea> <br />
    <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email, $username, $message); ?>" /> <br />
-   <?php echo Keypic::getIt(); ?> <br />
+   <?php echo Keypic::getIt('getImage'); ?> <br />
    <input type="submit" value="Send"> <br />
    </form>
    <?php echo $error; ?>

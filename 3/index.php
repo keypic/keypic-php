@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 	if($name!=='' && $password!=='')
 	{
 		echo '<font color="red">' . Keypic::isSpam($Token, $email) . '% of spam. </font><br />';
-		echo Keypic::getIt() . '<br />';
+		echo Keypic::getIt('getImage') . '<br />';
 		echo '<a href="">reload</a>';
 		exit(0);
 	}
@@ -54,7 +54,7 @@ Email: <br />
 Password: <br />
 <input type="password" name="password" value="<?php echo $password;  ?>" /> <br />
 <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email); ?>" /> <br />
-<?php echo Keypic::getIt(); ?> <br />
+<?php echo Keypic::getIt('getImage'); ?> <br />
 <input type="submit" value="Send"> <br />
 </form>
 <?php echo $error; ?>

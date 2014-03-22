@@ -22,8 +22,8 @@
 class Keypic
 {
 	private static $Instance;
-	private static $version = '1.6';
-	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.6';
+	private static $version = '1.7';
+	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.7';
 	private static $SpamPercentage = 70;
 	private static $host = 'ws.keypic.com';
 	private static $url = '/';
