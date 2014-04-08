@@ -122,11 +122,11 @@ class Keypic
 	{
 		if($RequestType == 'getImage')
 		{
-			return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="http://' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
+			return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
 		}
 		else
 		{
-			return '<script type="text/javascript" src="http://' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
+			return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
 		}
 	}
 
