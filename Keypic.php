@@ -120,14 +120,20 @@ class Keypic
 
 	public static function getIt($RequestType = 'getScript', $WidthHeight = '125x125', $Debug = null)
 	{
-		if($RequestType == 'getImage')
-		{
-			return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
-		}
-		else
-		{
-			return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
-		}
+        switch($RequestType)
+        {
+            case 'getImage':
+			    return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
+                break;
+
+//            case 'getScript':
+            default:
+			    return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
+                break;
+
+
+            
+        }
 	}
 
 	// Is Spam? from 0% to 100%
