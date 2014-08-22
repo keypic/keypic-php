@@ -22,8 +22,8 @@
 class Keypic
 {
 	private static $Instance;
-	private static $version = '1.7';
-	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.7';
+	private static $version = '1.9';
+	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.9';
 	private static $SpamPercentage = 70;
 	private static $host = 'ws.keypic.com';
 	private static $url = '/';
@@ -66,6 +66,8 @@ class Keypic
 	public static function setUserAgent($UserAgent){self::$UserAgent = $UserAgent;}
 
 	public static function setFormID($FormID){self::$FormID = $FormID;}
+
+	public static function getFormID(){return self::$FormID;}
 
 	public static function setPublisherID($PublisherID){self::$PublisherID = $PublisherID;}
 
@@ -118,7 +120,7 @@ class Keypic
 		}
 	}
 
-	public static function getIt($RequestType = 'getScript', $WidthHeight = '125x125', $Debug = null)
+	public static function getIt($RequestType = 'getScript', $WidthHeight = '336x280', $Debug = null)
 	{
         switch($RequestType)
         {
