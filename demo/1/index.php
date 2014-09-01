@@ -29,8 +29,11 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 		$spam = Keypic::isSpam($Token, $email, $username, $message);
 		if(is_numeric($spam))
 		{
-			echo '<font color="red"> This message has ' . $spam . '% of spam probability</font><br />';
-			echo Keypic::getIt('getImage') . '<br />';
+            if($spam < 39) $color = "green";
+            elseif($spam > 69) $color = "red";
+
+			echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
+			echo Keypic::getIt('getScript') . '<br />';
 			echo '<a href="">reload</a>';
 			die();
 		}
@@ -55,7 +58,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
  </style>
  </head>
  <body dir="ltr">
-  <b><a href="/demo/">DEMO home</a></b>
+  <b><a href="/demo/">Keypic PHP Live Demo home</a></b>
   <div class="greybox">
    <form method="post" action="#">
    Username: <br />
@@ -65,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
    Message: <br />
    <textarea name="message" rows="5" cols="30"><?php echo $message; ?></textarea> <br />
    <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email, $username, $message); ?>" /> <br />
-   <?php echo Keypic::getIt('getImage'); ?> <br />
+   <?php echo Keypic::getIt('getScript'); ?> <br />
    <input type="submit" value="Send"> <br />
    </form>
    <?php echo $error; ?>

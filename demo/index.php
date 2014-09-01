@@ -10,22 +10,20 @@
  </head>
  <body dir="ltr">
 
-<b>DEMO home</b>
+<b>Keypic PHP Live Demo home</b>
 <div class="greybox">
 
-<p>Here below we provide some forms using keypic tecnology</p>
+<p>Here below you can see some forms using Keypic tecnology</p>
 
 <p />
 
-<p><a href="/demo/1/" target="_blank"><strong>This is an example of a generic form with Name Email and Message.</strong></a></p>
+<p><a href="/demo/1/" target="_blank"><strong>This is an example of generic form.</strong></a></p>
 
-<p><a href="/demo/2/" target="_blank"><strong>This is an example of a registration form protected from keypic system anti spam and anti scam.</strong></a></p>
+<p><a href="/demo/2/" target="_blank"><strong>This is an example of registration form protected by keypic anti spam and anti scam system.</strong></a></p>
 
-<p><a href="/demo/3/" target="_blank"><strong>This is an example of a login form protected from keypic system anti spam and anti scam.</strong></a></p>
+<p><a href="/demo/3/" target="_blank"><strong>This is an example of login form protected by keypic anti spam and anti scam system.</strong></a></p>
 
-<p><a href="/demo/100/" target="_blank"><strong>This is a complete list of all banner formats supported from keypic.</strong></a></p>
-
-<p><a href="/demo/101/" target="_blank"><strong>This is a complete list of all iFrame formats supported from keypic.</strong></a></p>
+<p><a href="/demo/101/" target="_blank"><strong>This is a complete list of all banner formats supported from keypic.</strong></a></p>
 
 </div>
  </body>

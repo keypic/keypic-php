@@ -13,7 +13,7 @@ include_once('../Keypic.php');
  </style>
  </head>
  <body dir="ltr">
-<b><a href="/demo/">DEMO home</a></b>
+<b><a href="/demo/">Keypic PHP Live Demo home</a></b>
 <div class="greybox">
  <h1>Scripts</h1>
 	<table class="table_class">

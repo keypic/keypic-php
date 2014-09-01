@@ -25,10 +25,22 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 {
 	if($name!=='' && $password!=='')
 	{
-		echo '<font color="red">' . Keypic::isSpam($Token, $email) . '% of spam. </font><br />';
-		echo Keypic::getIt('getImage') . '<br />';
-		echo '<a href="">reload</a>';
-		exit(0);
+		$spam = Keypic::isSpam($Token, $email, $username, $message);
+		if(is_numeric($spam))
+		{
+            if($spam < 39) $color = "green";
+            elseif($spam > 69) $color = "red";
+
+			echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
+			echo Keypic::getIt('getScript') . '<br />';
+			echo '<a href="">reload</a>';
+			die();
+		}
+		else
+		{
+			echo '<font color="red"> There was an error: '. $spam .'</font><br />';
+			die();
+		}
 	}
 	else{$error = '<font color="red">Complete all the fields</font><br />';}
 }
@@ -45,7 +57,7 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
  </style>
  </head>
  <body dir="ltr">
-<b><a href="/demo/">DEMO home</a></b>
+<b><a href="/demo/">Keypic PHP Live Demo home</a></b>
 <div class="greybox">
 <form method="post" action="http://<?php echo $_SERVER["HTTP_HOST"]; ?>/demo/3/">
 
@@ -54,7 +66,7 @@ Email: <br />
 Password: <br />
 <input type="password" name="password" value="<?php echo $password;  ?>" /> <br />
 <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email); ?>" /> <br />
-<?php echo Keypic::getIt('getImage'); ?> <br />
+<?php echo Keypic::getIt('getScript'); ?> <br />
 <input type="submit" value="Send"> <br />
 </form>
 <?php echo $error; ?>
