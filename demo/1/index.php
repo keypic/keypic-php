@@ -15,7 +15,8 @@ $Token = $_REQUEST['Token'];
 
 /*
  *	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
- *	get your FormID here -> http://keypic.com/modules/forms/
+ *  get registered here -> https://keypic.com/?action=register
+ *	get your FormID here -> https://keypic.com/?action=forms
  *	IMPORTANT FormID must be secret, don't share it
 */
 
@@ -26,22 +27,32 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
 {
 	if($username!=='' && $email!=='' && $message!=='')
 	{
-		$spam = Keypic::isSpam($Token, $email, $username, $message);
-		if(is_numeric($spam))
+		if($spam = Keypic::isSpam($Token, $email, $username, $message))
 		{
-            if($spam < 39) $color = "green";
-            elseif($spam > 69) $color = "red";
+		    if(is_numeric($spam))
+		    {
+                if($spam < 39) $color = "green";
+                elseif($spam > 69) $color = "red";
 
-			echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
-			echo Keypic::getIt('getScript') . '<br />';
-			echo '<a href="">reload</a>';
-			die();
+			    echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
+			    echo Keypic::getIt('getScript') . '<br />';
+			    echo '<a href="">reload</a>';
+			    die();
+		    }
+		    else
+		    {
+			    echo '<font color="red"> There was an error: '. $spam .'</font><br />';
+			    die();
+		    }
 		}
 		else
 		{
-			echo '<font color="red"> There was an error: '. $spam .'</font><br />';
-			die();
+		        echo '<font color="red">It was not possible to determine spam probability</font><br />';
+		        echo '<a href="">reload</a>';
+		        die();
 		}
+
+
 	}
 	else{$error = '<font color="red">Complete all the fields</font><br />';}
 }
@@ -67,8 +78,9 @@ if($_SERVER['REQUEST_METHOD'] ==  "POST")
    <input type="text" name="email" value="<?php echo $email;  ?>" /> <br />
    Message: <br />
    <textarea name="message" rows="5" cols="30"><?php echo $message; ?></textarea> <br />
-   <input type="hidden" name="Token" value="<?php echo Keypic::getToken($Token, $email, $username, $message); ?>" /> <br />
-   <?php echo Keypic::getIt('getScript'); ?> <br />
+   <?php Keypic::getToken($Token, $email, $username, $message); ?>
+   <?=Keypic::setToken(); ?><br />
+   <?=Keypic::getIt('getScript'); ?> <br />
    <input type="submit" value="Send"> <br />
    </form>
    <?php echo $error; ?>

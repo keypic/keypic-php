@@ -15,7 +15,8 @@ $Token = $_REQUEST['Token'];
 
 /*
  *	instead of xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx insert your FormID
- *	get your FormID here -> http://keypic.com/modules/forms/
+ *  get registered here -> https://keypic.com/?action=register
+ *	get your FormID here -> https://keypic.com/?action=forms
  *	IMPORTANT FormID must be secret, don't share it
 */
 
@@ -25,24 +26,34 @@ Keypic::setFormID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
 
 if($_SERVER['REQUEST_METHOD'] ==  "POST")
 {
-	if($email != '' && $password1 != '')
+	if($username!=='' && $email!=='' && $message!=='')
 	{
-		$spam = Keypic::isSpam($Token, $email, $username, $message);
-		if(is_numeric($spam))
+		if($spam = Keypic::isSpam($Token, $email, $username, $message))
 		{
-            if($spam < 39) $color = "green";
-            elseif($spam > 69) $color = "red";
+		    if(is_numeric($spam))
+		    {
+                if($spam < 39) $color = "green";
+                elseif($spam > 69) $color = "red";
 
-			echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
-			echo Keypic::getIt('getScript') . '<br />';
-			echo '<a href="">reload</a>';
-			die();
+			    echo '<font color="' . $color . '"> This message has ' . $spam . '% of spam probability</font><br />';
+			    echo Keypic::getIt('getScript') . '<br />';
+			    echo '<a href="">reload</a>';
+			    die();
+		    }
+		    else
+		    {
+			    echo '<font color="red"> There was an error: '. $spam .'</font><br />';
+			    die();
+		    }
 		}
 		else
 		{
-			echo '<font color="red"> There was an error: '. $spam .'</font><br />';
-			die();
+		        echo '<font color="red">It was not possible to determine spam probability</font><br />';
+		        echo '<a href="">reload</a>';
+		        die();
 		}
+
+
 	}
 	else{$error = '<font color="red">Complete all the fields</font><br />';}
 }

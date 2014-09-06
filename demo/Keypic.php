@@ -22,12 +22,11 @@
 class Keypic
 {
 	private static $Instance;
-	private static $version = '1.9';
-	private static $UserAgent = 'User-Agent: Keypic PHP5 Class, Version: 1.9';
+	private static $version = '2.0';
+	private static $UserAgent = 'User-Agent: Keypic PHP Class, Version: 2.0';
 	private static $SpamPercentage = 70;
 	private static $host = 'ws.keypic.com';
 	private static $url = '/';
-	private static $port = 80;
 
 	private static $FormID;
 	private static $PublisherID;
@@ -79,8 +78,10 @@ class Keypic
 		$fields['ResponseType'] = '2';
 		$fields['FormID'] = $FormID;
 
-		$response = json_decode(self::sendRequest($fields), true);
-		return $response;
+
+		if($response = json_decode(self::sendRequest($fields), true)){return $response;}
+
+		return false;
 	}
 
 	public static function getToken($Token, $ClientEmailAddress = '', $ClientUsername = '', $ClientMessage = '', $ClientFingerprint = '', $Quantity = 1)
@@ -118,51 +119,72 @@ class Keypic
 				return  $response['Token'];
 			}
 		}
+
+        self::$Token = false;
+		return false;
 	}
+
+    public static function setToken()
+    {
+        if(self::$Token)
+        {
+            return '<input type="hidden" name="Token" value="' . self::$Token . '" />';
+        }
+        
+        return false;
+    }
 
 	public static function getIt($RequestType = 'getScript', $WidthHeight = '336x280', $Debug = null)
 	{
-        switch($RequestType)
+        if(self::$Token)
         {
-            case 'getImage':
-			    return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
-                break;
+            switch($RequestType)
+            {
+                case 'getImage':
+			        return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
+                    break;
 
 //            case 'getScript':
-            default:
-			    return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
-                break;
-
-
-            
+                default:
+			        return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
+                    break;
+            }
         }
+
+        return '<a href="http://keypic.com" target="_blank">At the moment Keypic is not properly configured in your system, please check if everything is configured correctly Subscribe to the service or check your FormID</a>';
 	}
 
 	// Is Spam? from 0% to 100%
 	public static function isSpam($Token, $ClientEmailAddress = '', $ClientUsername = '', $ClientMessage = '', $ClientFingerprint = '')
 	{
 		self::$Token = $Token;
-		$fields['Token'] = self::$Token;
-		$fields['FormID'] = self::$FormID;
-		$fields['RequestType'] = 'RequestValidation';
-		$fields['ResponseType'] = '2';
-		$fields['ServerName'] = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
-		$fields['ClientIP'] = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-		$fields['ClientUserAgent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-		$fields['ClientAccept'] = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
-		$fields['ClientAcceptEncoding'] = isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '';
-		$fields['ClientAcceptLanguage'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
-		$fields['ClientAcceptCharset'] = isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : '';
-		$fields['ClientHttpReferer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-		$fields['ClientUsername'] = $ClientUsername;
-		$fields['ClientEmailAddress'] = $ClientEmailAddress;
-		$fields['ClientMessage'] = $ClientMessage;
-		$fields['ClientFingerprint'] = $ClientFingerprint;
 
-		$response = json_decode(self::sendRequest($fields), true);
+        if((self::$Token) && (self::$FormID))
+        {
+            $fields['Token'] = self::$Token;
+            $fields['FormID'] = self::$FormID;
+            $fields['RequestType'] = 'RequestValidation';
+            $fields['ResponseType'] = '2';
+            $fields['ServerName'] = isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : '';
+            $fields['ClientIP'] = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+            $fields['ClientUserAgent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+            $fields['ClientAccept'] = isset($_SERVER['HTTP_ACCEPT']) ? $_SERVER['HTTP_ACCEPT'] : '';
+            $fields['ClientAcceptEncoding'] = isset($_SERVER['HTTP_ACCEPT_ENCODING']) ? $_SERVER['HTTP_ACCEPT_ENCODING'] : '';
+            $fields['ClientAcceptLanguage'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
+            $fields['ClientAcceptCharset'] = isset($_SERVER['HTTP_ACCEPT_CHARSET']) ? $_SERVER['HTTP_ACCEPT_CHARSET'] : '';
+            $fields['ClientHttpReferer'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+            $fields['ClientUsername'] = $ClientUsername;
+            $fields['ClientEmailAddress'] = $ClientEmailAddress;
+            $fields['ClientMessage'] = $ClientMessage;
+            $fields['ClientFingerprint'] = $ClientFingerprint;
 
-		if($response['status'] == 'response'){return $response['spam'];}
-		else if($response['status'] == 'error'){return $response['error'];}
+            $response = json_decode(self::sendRequest($fields), true);
+
+            if($response['status'] == 'response'){return $response['spam'];}
+            else if($response['status'] == 'error'){return $response['error'];}
+        }
+
+        return false;
 	}
 
 	public static function reportSpam($Token)
@@ -175,8 +197,8 @@ class Keypic
 		$fields['RequestType'] = 'ReportSpam';
 		$fields['ResponseType'] = '2';
 
-		$response = json_decode(self::sendRequest($fields), true);
-		return $response;
+		if($response = json_decode(self::sendRequest($fields), true)){return $response;}
+		else{return false;}
 	}
 
 	// makes a request to the Keypic Web Service
@@ -203,80 +225,24 @@ class Keypic
 			$data .="--$boundary\r\n";
 		}
 
-		// and attach the file
-//		$data .= "--$boundary\r\n";
-//		$content_file = join("", file($tmp_name));
-//		$data .="Content-Disposition: form-data; name=\"userfile\"; filename=\"$file_name\"\r\n";
-//		$data .= "Content-Type: $content_type\r\n\r\n";
-//		$data .= "$content_file\r\n";
-//		$data .="--$boundary--\r\n";
-
 		$header .= "Content-length: " . strlen($data) . "\r\n\r\n";
 
-		$socket = new Socket(self::$host, self::$port, $header.$data);
-		$socket->send();
-		$return = explode("\r\n\r\n", $socket->getResponse(), 2);
-		return $return[1];
+        $opts = array('http' =>
+            array(
+                    'method'  => 'POST',
+                    'header'  => $header,
+                    'content' => $data,
+                    'timeout' => 3
+                )
+            );
+
+            $context  = stream_context_create($opts);
+            if($result = @file_get_contents('http://' . self::$host, false, $context, -1, 40000))
+            {
+                return $result;
+            }
+
+        return false;
+
 	}
-}
-
-class Socket
-{
-	private $host;
-	private $port;
-	private $request;
-	private $response;
-	private $responseLength;
-	private $errorNumber;
-	private $errorString;
-	private $timeout;
-	private $retry;
-
-	public function __construct($host, $port, $request, $responseLength = 1024, $timeout = 3, $retry = 3)
-	{
-		$this->host = $host;
-		$this->port = $port;
-		$this->request = $request;
-		$this->responseLength = $responseLength;
-		$this->errorNumber = 0;
-		$this->errorString = '';
-		$this->timeout = $timeout;
-		$this->retry = $retry;
-	}
-
-	public function Send()
-	{
-		$this->response = '';
-		$r = 0;
-
-		do
-		{
-			if($r >= $this->retry){return;}
-
-			$fs = fsockopen($this->host, $this->port, $this->errorNumber, $this->errorString, $this->timeout);
-			++$r;
-		}
-		while(!$fs);
-
-		if($this->errorNumber != 0){throw new Exception('Error connecting to host: ' . $this->host . ' Error number: ' . $this->errorNumber . ' Error message: ' . $this->errorString);}
-
-		if($fs !== false)
-		{
-			@fwrite($fs, $this->request);
-
-			while(!feof($fs))
-			{
-				$this->response .= fgets($fs, $this->responseLength);
-			}
-
-			fclose($fs);
-			
-		}
-	}
-
-	public function getResponse(){return $this->response;}
-
-	public function getErrorNumner(){return $this->errorNumber;}
-
-	public function getErrorString(){return $this->errorString;}
 }
