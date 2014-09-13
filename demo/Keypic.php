@@ -22,8 +22,8 @@
 class Keypic
 {
 	private static $Instance;
-	private static $version = '2.0';
-	private static $UserAgent = 'User-Agent: Keypic PHP Class, Version: 2.0';
+	private static $version = '2.1';
+	private static $UserAgent = 'User-Agent: Keypic PHP Class, Version: 2.1';
 	private static $SpamPercentage = 70;
 	private static $host = 'ws.keypic.com';
 	private static $url = '/';
@@ -144,7 +144,6 @@ class Keypic
 			        return '<a href="http://' . self::$host . '/?RequestType=getClick&amp;Token=' . self::$Token . '" target="_blank"><img src="//' . self::$host . '/?RequestType=getImage&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '" alt="Form protected by Keypic" /></a>';
                     break;
 
-//            case 'getScript':
                 default:
 			        return '<script type="text/javascript" src="//' . self::$host . '/?RequestType=getScript&amp;Token=' . self::$Token . '&amp;WidthHeight=' . $WidthHeight . '&amp;PublisherID=' . self::$PublisherID . '"></script>';
                     break;
@@ -201,48 +200,28 @@ class Keypic
 		else{return false;}
 	}
 
-	// makes a request to the Keypic Web Service
 	private static function sendRequest($fields)
 	{
-		// boundary generation
-		srand((double)microtime()*1000000);
-		$boundary = "---------------------".substr(md5(rand(0,32000)),0,10);
-
-		// Build the header
 		$header = "POST " . self::$url . " HTTP/1.0\r\n";
 		$header .= "Host: " . self::$host . "\r\n";
-		$header .= "Content-Type: multipart/form-data, boundary=$boundary\r\n";
+		$header .= "Content-type: application/x-www-form-urlencoded\r\n";
 		$header .= self::$UserAgent . "\r\n";
-
-
-		$data = '';
-		// attach post vars
-		foreach($fields as $index => $value)
-		{
-			$data .="--$boundary\r\n";
-			$data .= "Content-Disposition: form-data; name=\"$index\"\r\n";
-			$data .= "\r\n$value\r\n";
-			$data .="--$boundary\r\n";
-		}
-
-		$header .= "Content-length: " . strlen($data) . "\r\n\r\n";
 
         $opts = array('http' =>
             array(
                     'method'  => 'POST',
                     'header'  => $header,
-                    'content' => $data,
+                    'content' => http_build_query($fields),
                     'timeout' => 3
                 )
             );
 
-            $context  = stream_context_create($opts);
-            if($result = @file_get_contents('http://' . self::$host, false, $context, -1, 40000))
-            {
-                return $result;
-            }
+        $context  = stream_context_create($opts);
+        if($result = @file_get_contents('http://' . self::$host, false, $context, -1, 40000))
+        {
+            return $result;
+        }
 
         return false;
-
 	}
 }
